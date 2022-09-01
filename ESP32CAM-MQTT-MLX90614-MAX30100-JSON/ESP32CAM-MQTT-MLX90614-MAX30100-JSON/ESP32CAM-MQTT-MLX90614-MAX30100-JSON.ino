@@ -19,7 +19,12 @@
  GND----------GND
  SDA----------14
  SCL----------15
-  
+
+ MLX90614     ESP32CAM
+ 5v-----------5V
+ GND----------GND
+ SDA----------14
+ SCL----------15 
  */
 
 //Bibliotecas
@@ -34,8 +39,8 @@ const char* ssid = "Totalplay-C59A";  // Aquí debes poner el nombre de tu red
 const char* password = "C59A47A9fTGJKAma";  // Aquí debes poner la contraseña de tu red
 
 //Datos del broker MQTT
-const char* mqtt_server = "192.168.100.15"; // Si estas en una red local, coloca la IP asignada, en caso contrario, coloca la IP publica
-IPAddress server(192,168,100,15);
+const char* mqtt_server = "192.168.100.162"; // Si estas en una red local, coloca la IP asignada, en caso contrario, coloca la IP publica
+IPAddress server(192,168,100,162);
 
 // Objetos
 WiFiClient espClient; // Este objeto maneja los datos de conexion WiFi
@@ -81,7 +86,7 @@ void setup() {
   pinMode (ledPin, OUTPUT);
   pinMode (ledPin2, OUTPUT);
   digitalWrite (ledPin, HIGH);
-  digitalWrite (ledPin2, HIGH);
+  digitalWrite (ledPin2, LOW);
 
   //Pines Indicadores de funcionamiento del MAX30100
   //pinMode(pulseLED, OUTPUT);
@@ -208,7 +213,7 @@ void loop() {
     timeLastMQTT = timeNow; // Actualización de seguimiento de tiempo
 
     //Se construye el string correspondiente al JSON que contiene 3 variables
-    String json = "{\"hr\"=" + String (heartRate) + ",\"spo2\":" + String (spo2) +"}";
+    String json = "{\"hr\":" + String (heartRate) + ",\"spo2\":" + String (spo2) +"}";
     Serial.println(json); // Se imprime en monitor solo para poder visualizar que el string esta correctamente creado
     int str_len = json.length() + 1;//Se calcula la longitud del string
     char char_array[str_len];//Se crea un arreglo de caracteres de dicha longitud
